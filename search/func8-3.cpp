@@ -12,5 +12,10 @@ void Visit(ElemType c)
 
 void InputFromFile(FILE* f, ElemType &c)
 {
-	
+	fscanf(f, "%*c%c, %d", &c.key, &c.weight);
+}
+
+void InputKey(KeyType &k)
+{
+	scanf("%c", &k);
 }
