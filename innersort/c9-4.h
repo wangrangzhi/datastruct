@@ -10,5 +10,9 @@ struct SLCell
 };
 struct SLList
 {
-	
+	SLCell r[MAX_SPACE];
+	int keynum;
+	int recnum;
 };
+
+typedef int ArrType[RADIX];
