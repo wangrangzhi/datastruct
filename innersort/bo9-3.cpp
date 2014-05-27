@@ -49,7 +49,7 @@ void TreeSort(SqList &L)
 			n = t[2*n+1].key == t[n].key ? 2*n+1 : 2*n+2;
 		}while( n < L.length - 1);
 
-		t[n].key = INI_MAX;
+		t[n].key = INT_MAX;
 		while(n)
 		{
 			n = (n+1)/2 - 1;
@@ -84,4 +84,19 @@ void HeapAdjust(HeapType &H, int s, int m, bool flag)
 		s = j;
 	}
 	H.r[s] = H.r[0];
+}
+
+void HeapSort(HeapType &H, bool flag)
+{
+	int i;
+	for( i = H.length / 2; i > 0; --i)
+		HeapAdjust(H, i, H.length, flag);
+
+	for( i = H.length; i > 1; --i)
+	{
+		H.r[0] = H.r[1];
+		H.r[1] = H.r[i];
+		H.r[i] = H.r[0];
+		HeapAdjust(H, 1, i-1, flag);
+	}
 }
