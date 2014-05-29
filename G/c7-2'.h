@@ -1,15 +1,20 @@
 
 #define MAX_VERTEX_NUM 20
+
 enum GraphKind{DG, DN, UDG, UDN};
+struct ElemType
+{
+	int adjvex;
+	InfoType *info; 
+};
 
 struct ArcNode
 {
-	int adjvex;
-	InfoType *info;
+	ElemType data;
 	ArcNode *nextarc;
 };
 
-typedef struct 
+typedef struct
 {
 	VertexType data;
 	ArcNode *firstarc;
