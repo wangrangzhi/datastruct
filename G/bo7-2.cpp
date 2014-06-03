@@ -106,7 +106,7 @@ void CreateGraph(ALGraph &G)
  	if(k != -1)
  	{
  		G.vertices[k].data = value;
- 		return OK:
+ 		return OK;
  	}
  	return ERROR;
  }
@@ -188,8 +188,8 @@ void CreateGraph(ALGraph &G)
  	j = LocateVex(G, w);
  	if(i<0 || j<0 || i == j)
  		return ERROR;
- 	e,adjvex = j;
- 	n = LocateVex(G.vertices[i].firstarc, e, equalvex);
+ 	e.adjvex = j;
+ 	n = LocateElem(G.vertices[i].firstarc, e, equalvex);
  	if(n)
  	{
  		ListDelete(G,vertices[i].firstarc, n, e);
@@ -199,7 +199,7 @@ void CreateGraph(ALGraph &G)
  		if(G.kind>=2)
  		{
  			e.adjvex = i;
- 			n = LocateVex(G.vertices[j].firstarc, e, equalvex);
+ 			n = LocateElem(G.vertices[j].firstarc, e, equalvex);
  			ListDelete(G.vertices[j].firstarc, n, e);
  		}
  		return OK;
@@ -214,21 +214,69 @@ void CreateGraph(ALGraph &G)
  	int i, k;
  	LinkList p;
  	k = LocateVex(G, v);
- 	if(k>0)
+ 	if(k<0)
  		return ERROR;
  	for(i=0; i<G.vexnum; i++)
  		DeleteArc(G, v, G.vertices[i].data);
- 	if(i=0; i<G.vexnum; i++)
- 	{
- 		p = G.vertices[i].firstarc;
- 		while(p)
- 		{
- 			if(p->data.adjvex > k)
- 				p->data.adjvex--;
- 			p = p->next;
- 		}
- 	}	
- 	for(i=k+1; i<G.vexnum; i++)
- 		G.vertices[i-1] = G.vertices[i];
- 	
+   if(G.kind<2) 
+     for(i=0;i<G.vexnum;i++)
+       DeleteArc(G,G.vertices[i].data,v); 
+   for(i=0;i<G.vexnum;i++) 
+   { p=G.vertices[i].firstarc; 
+     while(p) 
+     { if(p->data.adjvex>k) 
+         p->data.adjvex--; 
+       p=p->next; 
+     }
+   }
+   for(i=k+1;i<G.vexnum;i++)
+     G.vertices[i-1]=G.vertices[i]; 
+   G.vexnum--; 
+   return OK;
  }
+
+void DestroyGraph(ALGraph &G)
+ { 
+   int i;
+   for(i=G.vexnum-1;i>=0;i--) 
+     DeleteVex(G,G.vertices[i].data);
+ }
+ 
+ void Display(ALGraph G)
+ { 
+   int i;
+   ArcNode *p;
+   char s1[10]="line",s2[3]="-"; 
+   if(G.kind<2) 
+   { strcpy(s1,"arc");
+     strcpy(s2,"->");
+   }
+   switch(G.kind)
+   { case  DG:printf("DN\n");
+              break;
+     case  DN:printf("DG\n");
+              break;
+     case UDG:printf("UDN\n");
+              break;
+     case UDN:printf("UDG\n");
+   }
+   printf("%dth v, is: ",G.vexnum);
+   for(i=0;i<G.vexnum;++i)
+     Visit(GetVex(G,i)); 
+   printf("\n%dline%s: \n",G.arcnum,s1);
+   for(i=0;i<G.vexnum;i++)
+   { p=G.vertices[i].firstarc; 
+     while(p) 
+     { if(G.kind<=1||i<p->data.adjvex) 
+       { printf(" %s%s%s",G.vertices[i].data.name,s2,
+         G.vertices[p->data.adjvex].data.name);
+         if(G.kind%2) 
+           OutputArc(p->data.info); 
+       }
+       p=p->nextarc; 
+     }
+     printf("\n");
+   }
+ }
+
+

@@ -17,5 +17,7 @@ typedef struct
 
 struct ALGraph
 {
-	
+	AdjList vertices;
+	int vexnum, arcnum;
+	GraphKind kind;
 };

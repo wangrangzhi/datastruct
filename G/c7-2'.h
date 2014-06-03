@@ -22,5 +22,11 @@ typedef struct
 
 struct ALGraph
 {
-	
+	AdjList vertices;
+	int vexnum, arcnum;
+	GraphKind kind;
 };
+
+#define LNode ArcNode
+#define next nextarc
+typedef ArcNode *LinkList;

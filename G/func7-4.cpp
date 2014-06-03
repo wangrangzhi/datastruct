@@ -18,5 +18,6 @@ void OutputArc(InfoType* arc)
 
 void InputArcFromFile(FILE* f, InfoType* &arc)
 {
-	
+	arc = (InfoType*)malloc(sizeof(InfoType));
+	fscanf(f, "%d", &arc->weight);
 }
