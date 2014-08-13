@@ -1,0 +1,58 @@
+ #include"c1.h"
+ #include"func7-1.cpp" 
+ #include"func7-4.cpp" 
+ typedef VertexType TElemType; 
+ #include"c6-4.h" 
+ #include"bo6-6.cpp" 
+ #include"c7-2'.h" 
+ Boolean visited[MAX_VERTEX_NUM]; 
+ #include"bo7-2.cpp" 
+ typedef ALGraph Graph; 
+
+ void DFSTree(Graph G, int v, CSTree &T)
+ {
+ 	Boolean first = TRUE;
+ 	int w;
+ 	CSTree p, q;
+ 	visited[v] = TRUE;
+ 	for(w=FirstAdjVex(G, v); w>=0; w=NextAdjVex(G, v, w))
+ 		if(!visited[w])
+ 		{
+ 			p = (CSTree)malloc(sizeof(CSNode));
+ 			p->data = GetVex(G, w);
+ 			p->firstchild = NULL;
+ 			p->nextsibling = NULL:
+ 			if(first)
+ 			{
+ 				T->firstchild = p;
+ 				first = FALSE;
+ 			}
+ 			else
+ 				q->nextsibling = p;
+ 			q = p;
+ 			DFSTree(G, w, q);
+ 		}
+ }
+
+ void DFSForest(Graph G, CSTree &T)
+ {
+ 	CSTree p, q;
+ 	int v;
+ 	T = NULL;
+ 	for(v=0; v<G.vexnum; ++v)
+ 		visited[v] = FALSE;
+ 	for(v=0; v<G.vexnum; ++v)
+ 		if(!visited[v])
+ 		{
+ 			p = (CSTree)malloc(sizeof(CSNode));
+ 			p->data = GetVex(G, v);
+ 			p->firstchild = NULL;
+ 			p->nextsibling = NULL;
+ 			if(!T)
+ 				T = p;
+ 			else
+ 				q->nextsibling = p;
+ 			q = p;
+ 			DFSTree(G, v, p);
+ 		}
+ }
